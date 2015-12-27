@@ -4,6 +4,16 @@ SBT Plugin that adds tasks to package and publish [Berkshelf](http://berkshelf.c
 
 Requires the [`berks`](http://berkshelf.com) and [`aws`](https://aws.amazon.com/cli/) tools to be on the path (although a future version may use the AWS SDK instead of the AWS CLI tools).
 
+## Installation and Enabling
+
+In `project/plugins.sbt`, add the following:
+
+    addSbtPlugin("com.dwolla.sbt" % "berks-publisher" % "1.0.2")
+
+    resolvers += "artifactory" at "http://artifactory.dwolla.net:8081/artifactory/repo"
+
+The plugin will be automatically enabled.
+
 ## `berks:package` Task
 
 Runs `berks package {output-path}`, placing the packaged tarball in the build’s output directory.
@@ -14,7 +24,7 @@ Runs `berks package {output-path}`, placing the packaged tarball in the build’
 
  - The build output directory is set to `target/` by default, but can be overridden:
 
-        target := "build"
+        target := file("build")
 
 ## `berks:publish` Task
 
