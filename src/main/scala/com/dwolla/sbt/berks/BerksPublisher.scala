@@ -9,6 +9,8 @@ import scala.language.postfixOps
 
 object BerksPublisher extends AutoPlugin {
 
+  override def trigger = allRequirements
+
   object autoImport extends BerksPublisherKeys
 
   import autoImport._
