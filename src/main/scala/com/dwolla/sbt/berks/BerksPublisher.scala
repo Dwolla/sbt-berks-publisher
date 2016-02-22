@@ -16,9 +16,10 @@ object BerksPublisher extends AutoPlugin {
   import autoImport._
 
   lazy val defaults = Seq(
+    projectName := normalizedName.value,
     packageName := "cookbooks.tar.gz",
     s3Bucket := "dwolla-code",
-    s3Key := s"${normalizedName.value}/${version.value}/${packageName.value}"
+    s3Key := s"${projectName.value}/${version.value}/${packageName.value}"
   )
 
   private val packageInBerks = Keys.`package` in Berks

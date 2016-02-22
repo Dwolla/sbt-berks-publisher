@@ -30,10 +30,14 @@ Runs `berks package {output-path}`, placing the packaged tarball in the build’
 
 Publishes the output of `berks:package` to S3. By default, the tarball will be placed in `s3://dwolla-code/{normalized-project-name}/{project-version}/{packageName}`.
 
+ - `projectName` is set to the normalized name of the project by default, but can be overridden if case matters:
+
+        projectName in Berks := "MyProject"
+
  - `s3Bucket` is set to `dwolla-code` by default, but can be overridden:
 
         s3Bucket in Berks := "my-bucket"
 
- - `s3Key` is set to `s"${normalizedName.value}/${version.value}/${packageName.value}"` by default, but can be overridden:
+ - `s3Key` is set to `s"${projectName.value}/${version.value}/${packageName.value}"` by default, but can be overridden:
 
         s3Key in Berks := "key-name"
