@@ -1,4 +1,7 @@
 # Berks Publisher Plugin
+[![Travis](https://img.shields.io/travis/Dwolla/sbt-berks-publisher.svg?style=flat-square)](https://travis-ci.org/Dwolla/sbt-berks-publisher)
+[![Bintray](https://img.shields.io/bintray/v/dwolla/sbt-plugins/berks-publisher.svg?style=flat-square)](https://bintray.com/dwolla/sbt-plugins/berks-publisher/view)
+[![license](https://img.shields.io/github/license/Dwolla/sbt-berks-publisher.svg?style=flat-square)]()
 
 SBT Plugin that adds tasks to package and publish [Berkshelf](http://berkshelf.com) dependencies.
 
@@ -8,9 +11,7 @@ Requires the [`berks`](http://berkshelf.com) and [`aws`](https://aws.amazon.com/
 
 In `project/plugins.sbt`, add the following:
 
-    addSbtPlugin("com.dwolla.sbt" % "berks-publisher" % "1.0.2")
-
-    resolvers += "artifactory" at "http://artifactory.dwolla.net:8081/artifactory/repo"
+    addSbtPlugin("com.dwolla.sbt" % "berks-publisher" % "***VERSION***")
 
 The plugin will be automatically enabled.
 
@@ -28,13 +29,13 @@ Runs `berks package {output-path}`, placing the packaged tarball in the build’
 
 ## `berks:publish` Task
 
-Publishes the output of `berks:package` to S3. By default, the tarball will be placed in `s3://dwolla-code/{normalized-project-name}/{project-version}/{packageName}`.
+Publishes the output of `berks:package` to S3. By default, the tarball will be placed in `s3://{s3Bucket}/{normalized-project-name}/{project-version}/{packageName}`.
 
  - `projectName` is set to the normalized name of the project by default, but can be overridden if case matters:
 
         projectName in Berks := "MyProject"
 
- - `s3Bucket` is set to `dwolla-code` by default, but can be overridden:
+ - `s3Bucket` must be configured:
 
         s3Bucket in Berks := "my-bucket"
 
