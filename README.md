@@ -13,6 +13,12 @@ In `project/plugins.sbt`, add the following:
 
     addSbtPlugin("com.dwolla.sbt" % "berks-publisher" % "***VERSION***")
 
+    resolvers ++= Seq(
+      Resolver.bintrayIvyRepo("dwolla", "sbt-plugins"),
+      Resolver.bintrayIvyRepo("dwolla", "maven")
+    )
+
+
 The plugin will be automatically enabled.
 
 ## `berks:package` Task
