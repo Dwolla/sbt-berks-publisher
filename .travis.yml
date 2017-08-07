@@ -1,18 +1,32 @@
-services: docker
-sudo: true
 language: scala
+jdk: oraclejdk8
 
-scala:
-  - 2.10.6
+cache:
+  directories:
+    - $HOME/.ivy2/cache
+    - $HOME/.sbt/boot/
+before_cache:
+  # Tricks to avoid unnecessary cache updates
+  - find $HOME/.ivy2 -name "ivydata-*.properties" -delete
+  - find $HOME/.sbt -name "*.lock" -delete
 
-script: sbt ++$TRAVIS_SCALA_VERSION pipeline
+env:
+  global:
+    - secure: "WNSjYQNoqs1X5SXB1odnZuKdkI7ybbuhVfBR3TYbsOB7UmiL5JvEG4qGe2/EEDAARldrKEmdULdEuZqHdWfWvhOBx3fwcGkOFFPXi/y9eDcWfpOmAXEEsiolRpgk/RdfwiJQ+qN8lTkGStGtBiUnCBQgBj1xgmUTk5ztdGpvoPHbmngugl0QFLdkxrfk4ni4/VSNX6vMyM2MlXC06S/3b9viWxvvwNiymhahgBsX0Qxjpe06sdYJsIwqn7m2MJpYqdH+vPA4K0cBPOlYBanKF9Es1vczLGVlwHKIECsShAoSKYPbE6SyERJWcTzh1FAjJ7KeNaZ93qrKlXv+JlGPs7X1ZFwRPpNcdLjGAkmuVUAHYgK9xp0J2Wpq7WkXiSgukvZYwqYQ0ZRHMulFIvcBpn9umesTpSn1WFBiFQoHq/n2UBRU3/1c4ePR8XzptzIWDhwfur3nzmI9mIh0b6Sl9N7e6iXeCJCOgOfbpeH56iBKS4asOXTY9krGP54WUfQ2DQHJPhTwYCUwOW3ImYrprL8U5vLjHvNKOvqelJd6lmBtriQVuSg7cp9IcGqKsxif5XCfW0I/vu7qzjXt83zm3kUSZ4ju1s5JJwYT+91KZ6xBGIxVumtj/kqdJmeYyhbmBH34BbfL5NgmOiTWfd+EbV1FzkR5myOERObnZ9Wv1OU="
+  matrix:
+    - SBT_VERSION="0.13.17"
+    - SBT_VERSION="1.1.1"
+
+script:
+  - sbt "^^${SBT_VERSION}" test
 
 before_deploy:
   - mkdir -p $HOME/.bintray
   - openssl aes-256-cbc -K $encrypted_11e9222ce6bb_key -iv $encrypted_11e9222ce6bb_iv -in .credentials.enc -out $HOME/.bintray/.credentials -d
 
 deploy:
-  provider: script
-  script: sbt publish
-  on:
-    branch: master
+  - provider: script
+    script: .travis/release.sh
+    on:
+      branch: master
+      condition: $SBT_VERSION == "1.1.1" && $(git log -n1 --format=format:"%an") != "Dwolla Bot"
