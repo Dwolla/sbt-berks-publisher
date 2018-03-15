@@ -39,4 +39,4 @@ lazy val bintraySettings = Seq(
 )
 
 val berksPublisher = (project in file("."))
-  .settings(buildSettings ++ bintraySettings: _*)
+  .settings(buildSettings ++ bintraySettings ++ releaseSettings: _*)
